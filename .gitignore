@@ -1,3 +1,5 @@
+.venv
+backend-python/virtual_space
 # Logs
 logs
 *.log

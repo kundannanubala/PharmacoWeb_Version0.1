@@ -8,8 +8,8 @@ import xgboost as xgb
 app = Flask(__name__)
 CORS(app)
 
-csv_file_path = "/ML_Final_50PCA.csv"
-model_file_path = "D:/college/Mini/FinalFiles/11thOCTFINALXGB.pkl"
+csv_file_path = "./ML_Final_50PCA.csv"
+model_file_path = "./11thOCTFINALXGB.pkl"
 
 # Load the pre-trained model
 pre_trained_model = joblib.load(model_file_path)
