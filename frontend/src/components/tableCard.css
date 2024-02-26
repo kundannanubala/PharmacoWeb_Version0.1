@@ -1,0 +1,58 @@
+.tablet-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #f857a8;
+    background: -webkit-linear-gradient(45deg, #f857a8, #ff5858);
+    background: linear-gradient(45deg, #f857a8, #ff5858);
+    color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    position: relative;
+}
+
+.tablet-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.tablet-card button {
+    background-color: #B0E0E6 ;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.tablet-card button:hover {
+    background-color: #FFC0CB ;
+}
+
+.composition {
+    color: black ;
+    font-weight: bold;
+}
+
+.expanded-info {
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    margin-top: 20px;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Additional styles for the container of the tablet cards for a responsive layout */
+.tablets-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .tablets-container {
+        grid-template-columns: 1fr;
+    }
+}
