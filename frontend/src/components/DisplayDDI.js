@@ -29,6 +29,7 @@ const DisplayDDI = ({ submittedDrugs }) => {
     const filterDrugs = async (drugNames) => {
         setIsLoading(true);
         setError('');
+        console.log("Working")
 
         try {
             const response = await fetch('http://localhost:5001/filter-drugs', {
