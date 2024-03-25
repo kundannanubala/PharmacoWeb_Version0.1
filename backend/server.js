@@ -72,6 +72,23 @@ app.post('/api/drugs/details', async (req, res) => {
   }
 });
 
+app.post('/api/feedback', async (req, res) => {
+    try {
+      await client.connect();
+      const database = client.db("PharmacoWeb");
+      const collection = database.collection("feedback");
+      
+      // Insert the feedback data into the database
+      const feedbackData = req.body;
+      const result = await collection.insertOne(feedbackData);
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    } finally {
+      await client.close();
+    }
+  });
+
 
 
 

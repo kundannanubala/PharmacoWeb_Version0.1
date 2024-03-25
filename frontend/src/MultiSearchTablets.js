@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import SubmittedDrugsDisplay from './components/SubmittedDrugsDisplay';
 import DisplayDDI from './components/DisplayDDI';
+import Feedback from './Feedback';
 
 const MultiSearchTablets = () => {
     const [query, setQuery] = useState('');
@@ -10,6 +11,7 @@ const MultiSearchTablets = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [submittedDrugs, setSubmittedDrugs] = useState([]);
+    const [showFeedbackForm, setShowFeedbackForm] = useState(false);
 
     useEffect(() => {
         if (query) {
@@ -178,8 +180,24 @@ const MultiSearchTablets = () => {
             {/*Submitted Tablets Details */}
             <SubmittedDrugsDisplay submittedDrugs={submittedDrugs} />
             <DisplayDDI submittedDrugs={submittedDrugs} />
-            </div>                    
+            </div>   
+            <div className="p-5">
+                <label htmlFor="feedback-checkbox" className="inline-flex items-center">
+                    <input
+                    type="checkbox"
+                    id="feedback-checkbox"
+                    checked={showFeedbackForm}
+                    onChange={(e) => setShowFeedbackForm(e.target.checked)}
+                    className="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    />
+                    <span className="ml-2 font-bold text-lg text-white">Want to give feedback?</span>
+                </label>
+
+                {showFeedbackForm && <Feedback/>}
+            </div>              
         </div>
+
+
         </div>
     )
 };
