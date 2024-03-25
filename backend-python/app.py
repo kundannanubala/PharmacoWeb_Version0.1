@@ -5,45 +5,11 @@ import itertools
 import joblib
 import xgboost as xgb
 
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-
 app = Flask(__name__)
 CORS(app)
 
-# Define the DNN architecture
-class DNN(nn.Module):
-    def __init__(self):
-        super(DNN, self).__init__()
-        self.fc1 = nn.Linear(100, 2048)  # First hidden layer
-        self.fc2 = nn.Linear(2048, 1024) # Second hidden layer
-        self.fc3 = nn.Linear(1024, 512)  # Third hidden layer
-        self.fc4 = nn.Linear(512, 256)   # Fourth hidden layer
-        self.fc5 = nn.Linear(256, 128)   # Fifth hidden layer
-        self.fc6 = nn.Linear(128, 64)    # Sixth hidden layer
-        self.fc7 = nn.Linear(64, 32)     # Seventh hidden layer
-        self.fc8 = nn.Linear(32, 86)     # Output layer for 86 classes
-
-    def forward(self, x):
-        x = F.relu(self.fc1(x))
-        x = F.relu(self.fc2(x))
-        x = F.relu(self.fc3(x))
-        x = F.relu(self.fc4(x))
-        x = F.relu(self.fc5(x))
-        x = F.relu(self.fc6(x))
-        x = F.relu(self.fc7(x))
-        x = self.fc8(x)
-        return x
-
-# Load the pre-trained PyTorch model
-model_path = "D:/college/Major/DL_Training/trained_model.pth"
-model = DNN()
-model.load_state_dict(torch.load(model_path))
-model.eval()    
-
 csv_file_path = "./ML_Final_50PCA.csv"
-model_file_path = "./11thOCTFINALXGB.pkl"
+model_file_path = "D:/college/Mini/FinalFiles/11thOCTFINALXGB.pkl"
 
 # Load the pre-trained model
 pre_trained_model = joblib.load(model_file_path)
@@ -174,12 +140,7 @@ def filter_drugs():
             num_features = len(concatenated_data[0])
             column_names = [f'feature_{i}' for i in range(num_features)]
             input_profile_df = pd.DataFrame(concatenated_data, columns=column_names)
-            input_tensor = torch.FloatTensor(concatenated_data)
-            with torch.no_grad():
-                outputs = model(input_tensor)
-                _, predictions = torch.max(outputs, 1)
-            
-            # predictions = pre_trained_model.predict(input_profile_df)
+            predictions = pre_trained_model.predict(input_profile_df)
             
             # Map predictions to statements and include labels in the response
             predictions_response = [{
