@@ -10,7 +10,7 @@ app = Flask(__name__)
 CORS(app)
 
 csv_file_path = "./ML_Final_50PCA.csv"
-model_file_path = "./11thOCTFINALXGB.pkl"
+model_file_path = "./6thNOV_XGB.pkl"  
 
 # Load the pre-trained model
 pre_trained_model = joblib.load(model_file_path)
@@ -139,7 +139,7 @@ def filter_drugs():
 
         if concatenated_data:
             num_features = len(concatenated_data[0])
-            column_names = [f'feature_{i}' for i in range(num_features)]
+            column_names = [f'PC_{i+1}' for i in range(num_features)]
             input_profile_df = pd.DataFrame(concatenated_data, columns=column_names)
             predictions = pre_trained_model.predict(input_profile_df)
             
