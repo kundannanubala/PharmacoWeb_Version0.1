@@ -131,7 +131,7 @@ def filter_drugs():
         drug_pairs = list(itertools.combinations(found_drugs, 2))
         concatenated_data = []
 
-        for drug1, drug2 in drug_pairs:
+        for drug2, drug1 in drug_pairs:
             drug1_features = df[df['Drug_Name'] == drug1].iloc[0, 1:].reset_index(drop=True)
             drug2_features = df[df['Drug_Name'] == drug2].iloc[0, 1:].reset_index(drop=True)
             combined_features = pd.concat([drug1_features, drug2_features], ignore_index=True)
