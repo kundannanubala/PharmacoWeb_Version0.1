@@ -10,7 +10,7 @@ app = Flask(__name__)
 CORS(app)
 
 csv_file_path = "./ML_Final_50PCA.csv"
-model_file_path = "./6thNOV_XGB.pkl"  
+model_file_path = "./6thNOV_xgb_updated.pkl"  
 
 # Load the pre-trained model
 pre_trained_model = joblib.load(model_file_path)
@@ -131,7 +131,7 @@ def filter_drugs():
         drug_pairs = list(itertools.combinations(found_drugs, 2))
         concatenated_data = []
 
-        for drug2, drug1 in drug_pairs:
+        for drug1, drug2 in drug_pairs:
             drug1_features = df[df['Drug_Name'] == drug1].iloc[0, 1:].reset_index(drop=True)
             drug2_features = df[df['Drug_Name'] == drug2].iloc[0, 1:].reset_index(drop=True)
             combined_features = pd.concat([drug1_features, drug2_features], ignore_index=True)
