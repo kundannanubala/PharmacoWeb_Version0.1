@@ -52,6 +52,10 @@ const DisplayDDI = ({ submittedDrugs }) => {
         }
     };
 
+    const getImageUrl = (drugName) => {
+        return `/images/${drugName.replace(/ /g, '_')}.png`;
+    };
+
     // Only display content if there are submitted drugs
     if (submittedDrugs.length === 0) {
         return null;
@@ -62,16 +66,6 @@ const DisplayDDI = ({ submittedDrugs }) => {
             <div className="bg-gray bg-opacity-80 backdrop-filter backdrop-blur-lg shadow-lg rounded-lg p-6">
                 {isLoading && <p>Loading...</p>}
                 {error && <p>Error: {error}</p>}
-                {/* {processableDrugs.length > 0 && (
-                    <div>
-                        <h3 className="text-lg font-semibold">Processable Drugs:</h3>
-                        <ul className="list-disc pl-5">
-                            {processableDrugs.map((drug, index) => (
-                                <li key={index}>{drug}</li>
-                            ))}
-                        </ul>
-                    </div>
-                )} */}
                 {nonProcessableDrugs.length > 0 && (
                     <div>
                         <h3 className="text-lg font-semibold">Currently Unavailable Drugs:</h3>
@@ -82,24 +76,32 @@ const DisplayDDI = ({ submittedDrugs }) => {
                         </ul>
                     </div>
                 )}
-                    {drugPairs.length > 0 && (
-                        <div>
-                            <h3 className="text-lg font-semibold text-center mb-4 text-blue-200">Drug Pairs and DDI Predictions</h3>
-                            <ul className="list-disc pl-5 space-y-2">
-                            {drugPairs.map(({ drug_pair, label, statement }, index) => (
-                                <li key={index} className="bg-white bg-opacity-40 rounded-md p-3 shadow">
-                                    <span className="font-bold text-black block mb-2">
-                                        {drug_pair.split(' and ').join(' & ')}
-                                    </span>
-                                    <span className={`block ${label === 'No DDI' ? 'text-green-600 font-bold' : 'text-red-600 font-bold'}`}>
+                {drugPairs.length > 0 && (
+                    <div>
+                        <h3 className="text-lg font-semibold text-center mb-4 text-blue-200">Drug Pairs and DDI Predictions</h3>
+                        <ul className="list-disc pl-5 space-y-2">
+                        {drugPairs.map(({ drug_pair, label, statement }, index) => (
+                            <li key={index} className="bg-white bg-opacity-40 rounded-md p-3 shadow flex flex-col md:flex-row items-center gap-4 justify-center">
+                                <div className="text-center">
+                                    <img src={getImageUrl(drug_pair.split(' and ')[0])} alt={drug_pair.split(' and ')[0]} className=" text-black w-20 h-20 object-cover mx-auto" />
+                                    <span className="text-black  block font-bold">{drug_pair.split(' and ')[0]}</span>
+                                </div>
+                                <span className="text-black  font-bold text-xl">+</span>
+                                <div className="text-center">
+                                    <img src={getImageUrl(drug_pair.split(' and ')[1])} alt={drug_pair.split(' and ')[1]} className="w-20 h-20 object-cover mx-auto" />
+                                    <span className="text-black  block font-bold">{drug_pair.split(' and ')[1]}</span>
+                                </div>
+                                <div>
+                                    <span className={`block mt-4 md:mt-0 ${label === 'No DDI' ? 'text-black font-bold' : 'text-black font-bold'}`}>
                                         {statement.replace('{drug_a}', drug_pair.split(' and ')[0]).replace('{drug_b}', drug_pair.split(' and ')[1])}
                                     </span>
-                                </li>
-                            ))}
+                                </div>
+                            </li>
+                        ))}
 
-                            </ul>
-                        </div>
-                    )}
+                        </ul>
+                    </div>
+                )}
             </div>
         </div>
     );
