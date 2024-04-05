@@ -161,7 +161,7 @@ def filter_drugs():
         drug_pairs = list(itertools.combinations(found_drugs, 2))
         concatenated_data = []
 
-        for drug1, drug2 in drug_pairs:
+        for drug2, drug1 in drug_pairs:
             drug1_features = df[df['Drug_Name'] == drug1].iloc[0, 1:].reset_index(drop=True)
             drug2_features = df[df['Drug_Name'] == drug2].iloc[0, 1:].reset_index(drop=True)
             combined_features = pd.concat([drug1_features, drug2_features], ignore_index=True)
@@ -175,7 +175,7 @@ def filter_drugs():
 
             # Make predictions with RF, XGB, and DNN
             rf_predictions = rf_model.predict(X)
-            xgb_predictions = xgb_model.predict(X)
+            predictions = xgb_model.predict(X)
             
             X_tensor = torch.FloatTensor(X)
             dnn_predictions = []
@@ -193,7 +193,7 @@ def filter_drugs():
             votes = np.zeros((X.shape[0], 86))  # 86 classes
             for i in range(X.shape[0]):
                 votes[i, rf_predictions[i]] += weights[0]
-                votes[i, xgb_predictions[i]] += weights[1]
+                votes[i, predictions[i]] += weights[1]
                 votes[i, dnn_predictions[i]] += weights[2]
 
             # Determine final predictions from weighted votes
@@ -204,7 +204,7 @@ def filter_drugs():
                 'label': int(pred),
                 'statement': label_to_statement.get(int(pred), "Unknown label"),
                 'drug_pair': f"{drug_pairs[i][0]} and {drug_pairs[i][1]}"
-            } for i, pred in enumerate(final_predictions)]
+            } for i, pred in enumerate(predictions)]
 
             response['predictions'] = predictions_response
 
